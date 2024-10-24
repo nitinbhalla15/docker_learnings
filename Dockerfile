@@ -20,7 +20,9 @@ RUN mvn dependency:go-offline
 COPY src src
 # Layer 6 (Actually building the application and creating jar)
 RUN mvn package
-# Layer 7 (Running the jar build from prev step
+# Layer 7 (Running the jar build from prev step)
+# Creating jar in a layer mode which will create a jar and split the jar into layers to be used by docker to create efficient image in build
+# process -> jar will split up into : dependencies , snapshot-dependencies , application and spring-boot-loader componets
 RUN java -Djarmode=layertools -jar target/docker-0.0.1-SNAPSHOT.jar extract
 
 
